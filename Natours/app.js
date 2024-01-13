@@ -42,13 +42,10 @@ app.get("/api/v1/tours", function (req, res) {
 
 //Responding to url params
 app.get("/api/v1/tours/:id", function (req, res) {
-  // Log the parameters received in the request (optional)
-  console.log(req.params);
-
-  // Convert string to number for the 'id' parameter
+  // convert string to number
   const id = req.params.id * 1;
 
-  // Check for invalid ID (id greater than the max number of tours)
+  // invalid ID for id greater than max no of tours
   if (id > tours.length) {
     return res.status(404).json({
       status: "Fail",
@@ -56,10 +53,10 @@ app.get("/api/v1/tours/:id", function (req, res) {
     });
   }
 
-  // Find the tour by matching the 'id'
+  // find the tour by id
   const tour = tours.find((el) => el.id === id);
 
-  // Check if 'tour' is undefined (tour not found)
+  // check if tour is undefined (not found)
   if (!tour) {
     return res.status(404).json({
       status: "Fail",
@@ -67,7 +64,7 @@ app.get("/api/v1/tours/:id", function (req, res) {
     });
   }
 
-  // Respond with the found 'tour'
+  // Respond with the found tour
   res.status(200).json({
     status: "Success",
     data: {
@@ -101,6 +98,26 @@ app.post("/api/v1/tours/:id", function (req, res) {
     }
   );
   //res.send("Done");
+});
+
+//Patch Request
+app.patch("/api/v1/tours/:id", function (req, res) {
+  //we can implelment the Id below when it is actually valid
+  const id = req.params.id * 1;
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Invalid ID",
+    });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      tour: "<Updated tour here..>",
+    },
+  });
 });
 
 const port = 9000;
