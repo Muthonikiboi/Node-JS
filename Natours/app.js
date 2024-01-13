@@ -29,7 +29,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get("/api/v1/tours", function (req, res) {
+const getAllTours = function (req, res) {
   res.status(200),
     res.json({
       status: "success",
@@ -38,10 +38,9 @@ app.get("/api/v1/tours", function (req, res) {
         tours: tours,
       },
     });
-});
+};
 
-//Responding to url params
-app.get("/api/v1/tours/:id", function (req, res) {
+const getTour = function (req, res) {
   // convert string to number
   const id = req.params.id * 1;
 
@@ -71,10 +70,9 @@ app.get("/api/v1/tours/:id", function (req, res) {
       tour,
     },
   });
-});
+};
 
-//API Handling POST request
-app.post("/api/v1/tours/:id", function (req, res) {
+const createTour = function (req, res) {
   //console.log(req.body);
 
   //give the new object we created in the postman an ID
@@ -98,10 +96,9 @@ app.post("/api/v1/tours/:id", function (req, res) {
     }
   );
   //res.send("Done");
-});
+};
 
-//Patch Request
-app.patch("/api/v1/tours/:id", function (req, res) {
+const updateTour = function (req, res) {
   //we can implelment the Id below when it is actually valid
   const id = req.params.id * 1;
 
@@ -118,9 +115,42 @@ app.patch("/api/v1/tours/:id", function (req, res) {
       tour: "<Updated tour here..>",
     },
   });
-});
+};
 
-const port = 9000;
+const deleteTour = function (req, res) {
+  const id = req.params.id * 1;
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Invalid ID",
+    });
+  }
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+};
+
+//app.get("/api/v1/tours", getAllTours);
+//Responding to url params
+//app.get("/api/v1/tours/:id", getTour);
+//API Handling POST request
+//app.post("/api/v1/tours/:id", createTour);
+//Patch Request
+//app.patch("/api/v1/tours/:id", updateTour);
+//Delete Request
+//app.delete("/api/v1/tours/:id", deleteTour);
+
+app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app
+  .route("/api/v1/tours/:id")
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
+
+const port = 3000;
 //callback function to output "" when the server starts running
 app.listen(port, function () {
   console.log(`App is listening on port ${port}...`);
