@@ -24,7 +24,7 @@ app.use(express.json());
 // });
 
 //API Handling GET
-const tour = JSON.parse(
+const tours = JSON.parse(
   //${__dirname} --shows that it is the current directory
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
@@ -33,11 +33,47 @@ app.get("/api/v1/tours", function (req, res) {
   res.status(200),
     res.json({
       status: "success",
-      results: tour.length,
+      results: tours.length,
       data: {
-        tours: tour,
+        tours: tours,
       },
     });
+});
+
+//Responding to url params
+app.get("/api/v1/tours/:id", function (req, res) {
+  // Log the parameters received in the request (optional)
+  console.log(req.params);
+
+  // Convert string to number for the 'id' parameter
+  const id = req.params.id * 1;
+
+  // Check for invalid ID (id greater than the max number of tours)
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Invalid ID",
+    });
+  }
+
+  // Find the tour by matching the 'id'
+  const tour = tours.find((el) => el.id === id);
+
+  // Check if 'tour' is undefined (tour not found)
+  if (!tour) {
+    return res.status(404).json({
+      status: "Fail",
+      message: "Tour not found",
+    });
+  }
+
+  // Respond with the found 'tour'
+  res.status(200).json({
+    status: "Success",
+    data: {
+      tour,
+    },
+  });
 });
 
 //API Handling POST request
@@ -45,21 +81,21 @@ app.post("/api/v1/tours/:id", function (req, res) {
   //console.log(req.body);
 
   //give the new object we created in the postman an ID
-  const newId = tour[tour.length - 1].id + 1;
+  const newId = tours[tours.length - 1].id + 1;
   //
   const newTour = Object.assign({ id: newId }, req.body);
   //we push this new tour to the tours array
-  tour.push(newTour);
+  tours.push(newTour);
 
   //Write into file
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tour),
+    JSON.stringify(tours),
     function (err) {
       res.status(201).json({
         status: "success",
         data: {
-          tour: newTour,
+          tours: newTour,
         },
       });
     }
@@ -67,7 +103,7 @@ app.post("/api/v1/tours/:id", function (req, res) {
   //res.send("Done");
 });
 
-const port = 3000;
+const port = 9000;
 //callback function to output "" when the server starts running
 app.listen(port, function () {
   console.log(`App is listening on port ${port}...`);
