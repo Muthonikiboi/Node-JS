@@ -7,6 +7,15 @@ const app = express();
 //app.use-used in order to use such a middleware
 app.use(express.json());
 
+//We are defining a middleware(globally)
+app.use(function (req, res, next) {
+  console.log("Hello from the middleware");
+  //we call the next function it will be recurring
+  next();
+});
+
+//middle ware to manipulate the request object
+
 // //get method
 // app.get("/", function (req, res) {
 //   //next lines speifies the status code-use 200 for okay
