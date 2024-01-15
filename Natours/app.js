@@ -15,6 +15,11 @@ app.use(function (req, res, next) {
 });
 
 //middle ware to manipulate the request object
+//Get the time the request happened
+app.use(function (req, res, next) {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 // //get method
 // app.get("/", function (req, res) {
@@ -39,9 +44,11 @@ const tours = JSON.parse(
 );
 
 const getAllTours = function (req, res) {
+  console.log(req.requestTime);
   res.status(200),
     res.json({
       status: "success",
+      requestAt: req.requestTime,
       results: tours.length,
       data: {
         tours: tours,
