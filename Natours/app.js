@@ -1,8 +1,11 @@
 const fs = require("fs");
 const express = require("express");
-
+const morgan = require("morgan");
 const app = express();
 
+//1...MIDDLEWARES
+
+app.use(morgan("dev"));
 //express.json()-is a middle ware that modifies a request that comes in
 //app.use-used in order to use such a middleware
 app.use(express.json());
@@ -21,6 +24,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+//2...ROUTE HANDLERS
 // //get method
 // app.get("/", function (req, res) {
 //   //next lines speifies the status code-use 200 for okay
@@ -159,13 +163,16 @@ const deleteTour = function (req, res) {
 //Delete Request
 //app.delete("/api/v1/tours/:id", deleteTour);
 
+//3...ROUTES
 app.route("/api/v1/tours").get(getAllTours).post(createTour);
+
 app
   .route("/api/v1/tours/:id")
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
 
+//4...SERVER
 const port = 3000;
 //callback function to output "" when the server starts running
 app.listen(port, function () {
