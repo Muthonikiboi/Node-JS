@@ -153,6 +153,42 @@ const deleteTour = function (req, res) {
   });
 };
 
+//USERS
+const getAllUsers = function (req, res) {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined",
+  });
+};
+
+const getUser = function (req, res) {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined",
+  });
+};
+
+const updateUser = function (req, res) {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined",
+  });
+};
+
+const createUser = function (req, res) {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined",
+  });
+};
+
+const deleteUser = function (req, res) {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined",
+  });
+};
+
 //app.get("/api/v1/tours", getAllTours);
 //Responding to url params
 //app.get("/api/v1/tours/:id", getTour);
@@ -172,6 +208,9 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+app.route("/api/v1/users").get(getAllUsers).post(createUser);
+
+app.route("/api/v1/users").get(getUser).patch(updateUser).delete(deleteUser);
 //4...SERVER
 const port = 3000;
 //callback function to output "" when the server starts running
