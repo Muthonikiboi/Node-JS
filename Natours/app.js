@@ -200,13 +200,15 @@ const deleteUser = function (req, res) {
 //app.delete("/api/v1/tours/:id", deleteTour);
 
 //3...ROUTES
-app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app.use("/api/v1/tours", tourRouter);
+const tourRouter = express.Router();
 
-app
-  .route("/api/v1/tours/:id")
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+app.use("/api/v1/users", userRouter);
+const userRouter = express.Router();
+
+tourRouter.route("/").get(getAllTours).post(createTour);
+
+tourRouter.route("/:id").get(getTour).patch(updateTour).delete(deleteTour);
 
 app.route("/api/v1/users").get(getAllUsers).post(createUser);
 
