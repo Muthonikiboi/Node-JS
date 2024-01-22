@@ -40,7 +40,7 @@ exports.checkBody = function (req, res, next) {
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
       status: "Fail",
-      message: "Bad request",
+      message: "Add price and name",
     });
     next();
   }
