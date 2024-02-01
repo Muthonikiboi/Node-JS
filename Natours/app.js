@@ -11,6 +11,9 @@ app.use(morgan("dev"));
 //app.use-used in order to use such a middleware
 app.use(express.json());
 
+//use a simple built in middleware to pas static files
+app.use(express.static(`${__dirname}/public`));
+
 //We are defining a middleware(globally)
 app.use(function (req, res, next) {
   console.log("Hello from the middleware");
