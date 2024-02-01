@@ -14,6 +14,7 @@ router.param("id", tourController.checkId);
 //Create checkbody middleware function
 //check if body contains the name and price property
 //if not,send back 400(bad request)
+//add it to the post handler stack
 
 router
   .route("/")
