@@ -19,11 +19,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("DB Connection Successful"));
-// .then((con) => {
-//   //con is the result value of the promise
-//   console.log(con.connections);
-//   console.log("DB CONNECTION SUCCESSFUL");
-// });
 
 const port = 3000;
 //callback function to output "" when the server starts running
