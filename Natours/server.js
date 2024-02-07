@@ -20,6 +20,29 @@ mongoose
   })
   .then(() => console.log("DB Connection Successful"));
 
+// We construct a schema
+//new mongoose.Schema--To specify a schema
+const tourSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    // where we have require we can type the line to display when we are missing this field--You pass an array
+    required: [true, "A tour Must have a name"], //a validater
+    //To have no tour document with the same name
+    unique: true,
+  },
+  rating: {
+    type: Number,
+    default: 4.5,
+  },
+  price: {
+    type: Number,
+    required: [, "A tour must have a price"],
+  },
+});
+
+//create model out of our schama---We create a tour out of the schema
+const Tour = mongoose.model("Tour", tourSchema);
+
 const port = 3000;
 //callback function to output "" when the server starts running
 app.listen(port, function () {
