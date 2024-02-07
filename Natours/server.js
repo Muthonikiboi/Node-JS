@@ -32,7 +32,7 @@ const tourSchema = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    default: 4.5,
+    default: 4.5, //If you lack to pu a rating this comes a s a default
   },
   price: {
     type: Number,
@@ -42,6 +42,24 @@ const tourSchema = new mongoose.Schema({
 
 //create model out of our schama---We create a tour out of the schema
 const Tour = mongoose.model("Tour", tourSchema);
+
+//new doc from model above
+const testTour = new Tour({
+  name: "The Park Camper",
+  rating: 3.7,
+  price: 800,
+});
+
+//testTour-Document instance,,,,,,call the save method to save document to the database
+testTour
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  //returns an error if there is an error while saving
+  .catch((err) => {
+    console.log("Error while saving", err);
+  });
 
 const port = 3000;
 //callback function to output "" when the server starts running
